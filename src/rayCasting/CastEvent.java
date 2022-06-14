@@ -38,6 +38,10 @@ public class CastEvent {
         this.hitBox2D=hitBox2D;
     }
 
+    public CastEvent(Point initalLocation, Point interactLocation, HitBox2D hitBox2D) {
+        this(initalLocation,interactLocation,0,hitBox2D);
+    }
+
     public HitBox2D getInteractBox2D() {
         return hitBox2D;
     }
