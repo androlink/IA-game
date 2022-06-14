@@ -65,17 +65,22 @@ public class Particle {
      */
     public CastEvent cast( HitBox2D hitbox){
         //fixme ne detecte pas les collision
-        System.out.println("indice: "+indice+", from: ["+ initalLocation.x+", "+initalLocation.y+"], to: ["+ directionLocation.x+", "+directionLocation.y+"]");//todo debug
+        //System.out.println("indice: "+indice+", from: ["+ initalLocation.x+", "+initalLocation.y+"], to: ["+ directionLocation.x+", "+directionLocation.y+"]");//todo debug
+
 
         double bestDistance=Double.POSITIVE_INFINITY;
         for(int i = 0;i<hitbox.getCorners().length;i++){
-            double testDistance;
+            double testDistance;//fixme bug sur cette variable
+
             if(i==hitbox.getCorners().length-1){
                 testDistance = cast(new Point[]{new Point(hitbox.getCorners()[i]),new Point(hitbox.getCorners()[0])});
             }else{
                 testDistance = cast(new Point[]{new Point(hitbox.getCorners()[i]),new Point(hitbox.getCorners()[i+1])});
             }
-            if(bestDistance>testDistance)bestDistance=testDistance;
+            if(bestDistance>testDistance){
+                //System.out.println(indice+" "+bestDistance+">"+testDistance);
+                bestDistance=testDistance;
+            }
         }
 
         if(!Double.isFinite(bestDistance)){
