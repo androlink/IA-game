@@ -82,11 +82,11 @@ public class Particle {
                 bestDistance=testDistance;
             }
         }
-
+        CastEvent event = null;
         if(!Double.isFinite(bestDistance)){
-            CastEvent event=new CastEvent(initalLocation,new Point((int)(Math.cos(angle)*bestDistance),(int)(Math.cos(angle)*bestDistance)),indice,hitbox);
+            event=new CastEvent(initalLocation,new Point((int)(Math.cos(angle)*bestDistance),(int)(Math.cos(angle)*bestDistance)),indice,hitbox);
         }
-        return null;
+        return event;
     }
 
     /**
