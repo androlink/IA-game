@@ -1,15 +1,16 @@
 package rayCasting;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class SimpleSquareHitBox extends HitBox2D{
     Point[] corners = new Point[4];
 
-    SimpleSquareHitBox(Point location,double size){
-
-        for(int i = 0 ;i < 4 ;i ++){
-            corners[i] = new Point((int)(Math.cos((Math.PI*i*2/4f)+Math.PI/4)*size)+location.x,(int)(Math.sin((Math.PI*i*2/4)+Math.PI/4)*size)+location.y);
-        }
+    SimpleSquareHitBox(Point location,int size){
+        corners[0] = new Point(location.x-size,location.y-size);
+        corners[1] = new Point(location.x+size,location.y-size);
+        corners[2] = new Point(location.x+size,location.y+size);
+        corners[3] = new Point(location.x-size,location.y+size);
     }
 
 
@@ -23,5 +24,12 @@ public class SimpleSquareHitBox extends HitBox2D{
     @Override
     public Point[] getCorners() {
         return corners;
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleSquareHitBox{" +
+                "corners=" + Arrays.toString(corners) +
+                '}';
     }
 }
