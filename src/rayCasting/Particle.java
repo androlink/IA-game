@@ -31,10 +31,8 @@ public class Particle {
     }
 
     public Particle(Point initalLocation, double angle,double lenght, int indice) {
-        this.initalLocation = initalLocation;
-        this.angle = angle;
+        this(initalLocation,angle,lenght);
         this.indice = indice;
-        this.directionLocation= new Point((int)(Math.cos(angle)*lenght),(int)(Math.sin(angle)*lenght));
     }
     /*
     public Point watch(ArrayList<HitBox2D> hitboxs){
@@ -64,7 +62,6 @@ public class Particle {
      * @return - renvoie le CastEvent de l'interaction - null si il n'y a pas d'interaction
      */
     public CastEvent cast( HitBox2D hitbox){
-        //fixme ne detecte pas les collision
         //System.out.println("indice: "+indice+", from: ["+ initalLocation.x+", "+initalLocation.y+"], to: ["+ directionLocation.x+", "+directionLocation.y+"]");//todo debug
 
 
@@ -83,8 +80,8 @@ public class Particle {
             }
         }
         CastEvent event = null;
-        if(!Double.isFinite(bestDistance)){
-            event=new CastEvent(initalLocation,new Point((int)(Math.cos(angle)*bestDistance),(int)(Math.cos(angle)*bestDistance)),indice,hitbox);
+        if(bestDistance<lenght){
+            event=new CastEvent(initalLocation,new Point((int)(Math.cos(angle)*bestDistance),(int)(Math.sin(angle)*bestDistance)),indice,hitbox);
         }
         return event;
     }
@@ -122,21 +119,18 @@ public class Particle {
         } else {
             return Double.POSITIVE_INFINITY;
         }
-
-
-
-
-
-
-
-
-
-
         return distance;
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return "Particle{" +
+                "initalLocation=" + initalLocation +
+                ", angle=" + angle +
+                ", indice=" + indice +
+                ", lenght=" + lenght +
+                ", directionLocation=" + directionLocation +
+                '}';
+    }
 }
