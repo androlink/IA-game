@@ -1,7 +1,8 @@
 package rayCasting;
 
+import hitbox.HitBox2D;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.geom.Point2D;
 
 
