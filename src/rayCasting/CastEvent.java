@@ -1,6 +1,7 @@
 package rayCasting;
 
 import hitbox.HitBox2D;
+import hitbox.Side;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -29,23 +30,30 @@ public class CastEvent {
 
     HitBox2D hitBox2D;
 
+    Side side;
 
-    public CastEvent(Point initalLocation, Point interactLocation,int indice,HitBox2D hitBox2D) {
+    public CastEvent(Point initalLocation, Point interactLocation,int indice,HitBox2D hitBox2D,Side side) {
         this.initalLocation = initalLocation;
         this.interactLocation = interactLocation;
         this.direction = Math.atan2(interactLocation.y-initalLocation.y,interactLocation.x-initalLocation.x);
         this.distance = Point2D.distance(initalLocation.x,initalLocation.y,interactLocation.x,interactLocation.y);
         this.indice=indice;
         this.hitBox2D=hitBox2D;
+        this.side=side;
     }
 
-    public CastEvent(Point initalLocation, Point interactLocation, HitBox2D hitBox2D) {
-        this(initalLocation,interactLocation,0,hitBox2D);
+    public CastEvent(Point initalLocation, Point interactLocation, HitBox2D hitBox2D,Side side) {
+        this(initalLocation,interactLocation,0,hitBox2D,side);
     }
-
-    public HitBox2D getInteractBox2D() {
-        return hitBox2D;
-    }
+    /*
+    public CastEvent(Point initalLocation,double direction, double distance,int indice, HitBox2D hitBox2D){//FIXME bug au niveau du calcul de position du point d'interaction
+        this.initalLocation = initalLocation;
+        this.distance = distance;
+        this.direction = direction;
+        this.interactLocation = new Point(initalLocation.x+(int)(Math.cos(direction)*distance),initalLocation.x+(int)(Math.sin(direction)*distance));
+        this.indice=indice;
+        this.hitBox2D=hitBox2D;
+    }*/
 
     public int getIndice() {
         return indice;
@@ -65,5 +73,13 @@ public class CastEvent {
 
     public double getDistance() {
         return distance;
+    }
+
+    public HitBox2D getHitBox2D() {
+        return hitBox2D;
+    }
+
+    public Side getSide() {
+        return side;
     }
 }
