@@ -7,19 +7,26 @@ import java.util.ArrayList;
 
 public class SimpleCastManager extends CastManager{
 
-    Particle[] rays = new Particle[90];
+    Particle[] rays = new Particle[360];
 
     Point location = new Point();
+    double lenght=100;
 
     public SimpleCastManager(){
-        for(int i = 0 ; i<rays.length;i++){
-            rays[i]=new Particle(location,Math.toRadians(i),1000,i);
-        }
+        initRay();
     }
     public SimpleCastManager(Point location){
         this.location = location;
+        initRay();
+    }
+    public SimpleCastManager(Point location,double lenght){
+        this.lenght=lenght;
+        this.location = location;
+        initRay();
+    }
+    private void initRay(){
         for(int i = 0 ; i<rays.length;i++){
-            rays[i]=new Particle(location,Math.toRadians(i*4),100,i);
+            rays[i]=new Particle(location,Math.toRadians(i),lenght,i);
         }
     }
 
