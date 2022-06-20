@@ -1,6 +1,7 @@
 package rayCasting;
 
-import java.awt.*;
+import hitbox.HitBox2D;
+
 import java.util.ArrayList;
 
 
