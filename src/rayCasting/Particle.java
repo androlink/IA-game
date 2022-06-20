@@ -1,5 +1,8 @@
 package rayCasting;
 
+import hitbox.HitBox2D;
+import hitbox.Side;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 
@@ -11,13 +14,13 @@ public class Particle {
 
     Point initalLocation = new Point();
 
-    double angle =0;
+    double angle = 0;
 
-    int indice=0;
+    int indice = 0;
 
-    double lenght=0;
+    double length = 100;
 
-    Point directionLocation;
+    Point directionLocation;//fixme bug avec localisation
 
     public Particle(Point initalLocation){
         this.initalLocation = initalLocation;
@@ -26,7 +29,7 @@ public class Particle {
     public Particle(Point initalLocation, double angle,double lenght) {
         this.initalLocation = initalLocation;
         this.angle = angle;
-        this.lenght = lenght;
+        this.length = lenght;
         this.directionLocation= new Point((int)(Math.cos(angle)*lenght),(int)(Math.sin(angle)*lenght));
     }
 
@@ -34,28 +37,7 @@ public class Particle {
         this(initalLocation,angle,lenght);
         this.indice = indice;
     }
-    /*
-    public Point watch(ArrayList<HitBox2D> hitboxs){
-        Point interactLocation=null;
-        Point closestInteraction=null;
 
-
-        for(HitBox2D hitbox:hitboxs){
-            interactLocation=cast(hitbox);
-            if(interactLocation!=null){
-                if(closestInteraction==null)closestInteraction=interactLocation;
-                //else if(Point2D.distance(closestInteraction.x,closestInteraction.y));
-
-
-            }
-
-
-        }
-
-
-
-        return closestInteraction;
-    }*/
 
     /**
      * @param hitbox
@@ -65,23 +47,29 @@ public class Particle {
         //System.out.println("indice: "+indice+", from: ["+ initalLocation.x+", "+initalLocation.y+"], to: ["+ directionLocation.x+", "+directionLocation.y+"]");//todo debug
 
 
-        double bestDistance=Double.POSITIVE_INFINITY;
-        for(int i = 0;i<hitbox.getCorners().length;i++){
-            double testDistance;//fixme bug sur cette variable
+        double bestDistance = length;
+        Point bestPt = null;
+        Side bestSide=null;
 
-            if(i==hitbox.getCorners().length-1){
-                testDistance = cast(new Point[]{new Point(hitbox.getCorners()[i]),new Point(hitbox.getCorners()[0])});
-            }else{
-                testDistance = cast(new Point[]{new Point(hitbox.getCorners()[i]),new Point(hitbox.getCorners()[i+1])});
-            }
-            if(bestDistance>testDistance){
-                //System.out.println(indice+" "+bestDistance+">"+testDistance);
-                bestDistance=testDistance;
+        for(int i = 0;i<hitbox.getSides().length;i++){
+            double testDistance;
+            Side side = hitbox.getSides()[i];
+            Point pt = cast(side.getCorner());
+
+
+            if(pt!=null) {
+                testDistance = Point2D.distance(initalLocation.x, initalLocation.y, pt.x, pt.y);
+                if (bestDistance > testDistance) {
+                    bestPt=pt;
+                    bestSide = side;
+                    //System.out.println(indice+" "+bestDistance+">"+testDistance);
+                    bestDistance = testDistance;
+                }
             }
         }
         CastEvent event = null;
-        if(bestDistance<lenght){
-            event=new CastEvent(initalLocation,new Point((int)(Math.cos(angle)*bestDistance),(int)(Math.sin(angle)*bestDistance)),indice,hitbox);
+        if(bestDistance < length){
+            event=new CastEvent(initalLocation,bestPt,hitbox,bestSide);
         }
         return event;
     }
@@ -89,12 +77,12 @@ public class Particle {
     /**
      *
      * @param side - contain the 2 points of a "wall"
-     * @return - return the distance of interaction positve infinity if no interaction
+     * @return - return the interaction point - null if no interaction
      *
+     * @see Point
      * @see CastEvent
      */
-    public double cast(Point[] side){
-        double distance;
+    public Point cast(Point[] side){
 
         double x1 = side[0].x;
         double y1 = side[0].y;
@@ -108,20 +96,32 @@ public class Particle {
 
         double den = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
         if (den == 0) {
-            return Double.POSITIVE_INFINITY;
+            return null;
         }
 
         double t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den;
         double u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den;
 
         if (t > 0 && t < 1 && u > 0) {
-            distance = Point2D.distance(x3,y3,x1 + t * (x2 - x1),y1 + t * (y2 - y1));
+            Point pt = new Point();
+            pt.x=(int)(x1 + t * (x2 - x1));
+            pt.y=(int)(y1 + t * (y2 - y1));
+            return pt;
         } else {
-            return Double.POSITIVE_INFINITY;
+            return null;
         }
-        return distance;
+    }
+    public void setAngle(double angle){
+        this.angle = angle;
+        directionLocation.x =(int) (Math.cos(angle)* length)+initalLocation.x;
+        directionLocation.y =(int) (Math.sin(angle)* length)+initalLocation.y;
     }
 
+    public void setInitalLocation(Point initalLocation) {
+        this.initalLocation = initalLocation;
+        directionLocation.x =(int) (Math.cos(angle)* length)+initalLocation.x;
+        directionLocation.y =(int) (Math.sin(angle)* length)+initalLocation.y;
+    }
 
     @Override
     public String toString() {
@@ -129,7 +129,7 @@ public class Particle {
                 "initalLocation=" + initalLocation +
                 ", angle=" + angle +
                 ", indice=" + indice +
-                ", lenght=" + lenght +
+                ", lenght=" + length +
                 ", directionLocation=" + directionLocation +
                 '}';
     }
