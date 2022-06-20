@@ -1,9 +1,15 @@
-package rayCasting;
+package test;
+
+import hitbox.HitBox2D;
+import hitbox.SimpleSquareHitBox;
+import rayCasting.CastEvent;
+import rayCasting.Particle;
+import rayCasting.SimpleCastManager;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-class Test {
+class CastTest {
 
 
 
@@ -26,7 +32,7 @@ class Test {
         Particle ray = new Particle(new Point(),0,100);
         System.out.println(hitBox2D.toString());
         System.out.println(ray.toString());
-        System.out.println(ray.cast(hitBox2D).interactLocation);
+        System.out.println(ray.cast(hitBox2D).getInitalLocation());
 
 
     }
@@ -37,7 +43,7 @@ class Test {
     @org.junit.jupiter.api.Test
     public void hitBoxManagerCollideTest(){
         System.out.println(Math.cos(Math.toRadians(0))+" "+Math.sin(Math.toRadians(0)));
-        SimpleSquareHitBox test = new SimpleSquareHitBox(new Point(10,0),2);
+        SimpleSquareHitBox test = new SimpleSquareHitBox(new Point(0,0),990);
         for(int i = 0 ; i < test.getCorners().length;i++)
             System.out.println(test.getCorners()[i]);
 
@@ -47,7 +53,7 @@ class Test {
         SimpleCastManager manager = new SimpleCastManager();
 
         for(CastEvent event:manager.watch(hitboxManager)){
-            System.out.println("indice: "+event.getIndice()+", location: "+event.interactLocation);
+            System.out.println("indice: "+event.getIndice()+", location: "+event.getInteractLocation());
         }
     }
 
