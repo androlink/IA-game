@@ -1,4 +1,4 @@
-package rayCasting;
+package hitbox;
 
 import java.awt.*;
 
@@ -12,5 +12,10 @@ public abstract class HitBox2D {
     public abstract boolean contain(Point location);
 
     public abstract Point[] getCorners();
+
+    public abstract Side[] getSides();
+
+    public abstract Point[] getSide(int index);
+
 
 }
