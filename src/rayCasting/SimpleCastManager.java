@@ -1,24 +1,27 @@
 package rayCasting;
 
+import hitbox.HitBox2D;
+
 import java.awt.*;
 import java.util.ArrayList;
 
 public class SimpleCastManager extends CastManager{
 
-    Particle[] rays = new Particle[360];
+    Particle[] rays = new Particle[90];
 
     Point location = new Point();
 
-    SimpleCastManager(){
+    public SimpleCastManager(){
         for(int i = 0 ; i<rays.length;i++){
             rays[i]=new Particle(location,Math.toRadians(i),1000,i);
         }
     }
-
-
-
-
-
+    public SimpleCastManager(Point location){
+        this.location = location;
+        for(int i = 0 ; i<rays.length;i++){
+            rays[i]=new Particle(location,Math.toRadians(i*4),100,i);
+        }
+    }
 
 
     @Override
@@ -27,8 +30,8 @@ public class SimpleCastManager extends CastManager{
 
         for(int i = 0 ; i<rays.length;i++) {
             //System.out.println(i);//todo debug
-
             Particle ray = rays[i];
+            ray.setInitalLocation(location);
 
             CastEvent bestCast = null;
 
@@ -40,7 +43,7 @@ public class SimpleCastManager extends CastManager{
                 }
             }
             if(bestCast!=null){
-                System.out.println("hit");//todo debug
+                //System.out.println("hit");//todo debug
                 events.add(bestCast);
             }else{
                 //System.out.println("miss");//todo debug
@@ -49,5 +52,9 @@ public class SimpleCastManager extends CastManager{
 
         }
         return events;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
     }
 }
