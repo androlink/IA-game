@@ -29,9 +29,10 @@ public class collideTest {
         BufferStrategy bufferStrategy;
         Graphics graphics;
 
-        SimpleRegularPolygonHitBox hitBox1 = new SimpleRegularPolygonHitBox(new Point(100,200),2,100);
-        SimpleRegularPolygonHitBox hitBox2 = new SimpleRegularPolygonHitBox(new Point(200,200),2,100);
-        hitBox2.setAngle(Math.PI/2);
+        SimpleRegularPolygonHitBox hitBox1 = new SimpleRegularPolygonHitBox(new Point(100,200),4,100);
+        SimpleRegularPolygonHitBox hitBox2 = new SimpleRegularPolygonHitBox(new Point(200,200),4,100);
+        hitBox2.setAngle(Math.PI/4);
+        hitBox1.setAngle(Math.PI/4);
 
 
 
