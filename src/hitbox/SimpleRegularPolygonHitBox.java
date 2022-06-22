@@ -46,6 +46,11 @@ public class SimpleRegularPolygonHitBox extends HitBox2D{
     }
 
     @Override
+    public Point getLocation() {
+        return location;
+    }
+
+    @Override
     public Point[] getBounds() {
         return bounds;
     }

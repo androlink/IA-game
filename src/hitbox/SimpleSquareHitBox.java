@@ -31,7 +31,10 @@ public class SimpleSquareHitBox extends HitBox2D {
     }
 
 
-
+    @Override
+    public Point getLocation() {
+        return location;
+    }
 
     @Override
     public void setLocation(Point location) {

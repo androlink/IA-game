@@ -16,6 +16,7 @@ public abstract class HitBox2D {
     public abstract Point[] getSide(int index);
 
     public abstract void setLocation(Point location);
+    public abstract Point getLocation();
     public abstract void setAngle(double angle);
 
     public ArrayList<CollisionEvent> collide(HitBox2D testedBox) {
