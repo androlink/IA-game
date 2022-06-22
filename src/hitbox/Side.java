@@ -37,7 +37,7 @@ public class Side {
         double t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den;
         double u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / den;
 
-        if (t > 0 && t < 1 && u > 0 && u < 1) {
+        if (t >= 0 && t <= 1 && u >= 0 && u <= 1) {
             Point pt = new Point();
             pt.x=(int)(x1 + t * (x2 - x1));
             pt.y=(int)(y1 + t * (y2 - y1));
