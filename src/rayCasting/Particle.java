@@ -20,7 +20,7 @@ public class Particle {
 
     double length = 100;
 
-    Point directionLocation;//fixme bug avec localisation
+    Point directionLocation;
 
     public Particle(Point initalLocation){
         this.initalLocation = initalLocation;
