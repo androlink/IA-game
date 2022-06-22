@@ -17,9 +17,9 @@ public class CollisionEvent {
         this.testedHitBox2D = testedHitBox2D;
         this.side = side;
         this.testedSide = testedSide;
-        double _angle1=Math.atan2(side.getCorner()[1].y-side.getCorner()[0].y,side.getCorner()[1].x-side.getCorner()[0].x);
-        double _angle2=Math.atan2(testedSide.getCorner()[1].y-testedSide.getCorner()[0].y,testedSide.getCorner()[1].x-testedSide.getCorner()[0].x);
-        angle=(_angle1-_angle2);
+
+        angle=Math.atan2(testedHitBox2D.getLocation().y-hitBox2D.getLocation().y,testedHitBox2D.getLocation().x-hitBox2D.getLocation().x);
+
     }
 
     public Point getLocationEvent() {
