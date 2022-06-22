@@ -2,6 +2,7 @@ package graphicTest;
 
 import hitbox.HitBox2D;
 import hitbox.Side;
+import hitbox.SimpleRegularPolygonHitBox;
 import hitbox.SimpleSquareHitBox;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -36,13 +37,12 @@ public class CastTest {
         f.add(canvas);
 
 
-        SimpleCastManager castManager = new SimpleCastManager(new Point(250,250));
+        SimpleCastManager castManager = new SimpleCastManager(new Point(250,250),1000);
 
         ArrayList<HitBox2D> hitBox2DS = new ArrayList<>();
 
-        hitBox2DS.add(new SimpleSquareHitBox(new Point(250,250),250));
         Random random = new Random();
-        for(int i = 0;i<50;i++)hitBox2DS.add(new SimpleSquareHitBox(new Point(random.nextInt(400),random.nextInt(400)),random.nextInt(5,20)));
+        for(int i = 0;i<50;i++)hitBox2DS.add(new SimpleRegularPolygonHitBox(new Point(random.nextInt(400),random.nextInt(400)),random.nextInt(2,10),random.nextInt(5,20)));
 
 
 
@@ -54,7 +54,11 @@ public class CastTest {
         Graphics graphics;
         ArrayList<CastEvent> castEvent;
 
+        double a = 0;
         while (running) {
+            a+=0.002;
+            for(HitBox2D p:hitBox2DS)p.setAngle(a);
+
             castManager.setLocation(MouseInfo.getPointerInfo().getLocation());
             bufferStrategy = canvas.getBufferStrategy();
             graphics = bufferStrategy.getDrawGraphics();
@@ -65,13 +69,11 @@ public class CastTest {
             for(CastEvent e:castEvent){
                 graphics.drawLine(e.getInitalLocation().x,e.getInitalLocation().y,e.getInteractLocation().x,e.getInteractLocation().y);
             }
-            /*
+
             graphics.setColor(Color.RED);
             for(HitBox2D hitBox2D:hitBox2DS) {
-                for(Side s:hitBox2D.getSides()){
-                    graphics.drawLine(s.getCorner()[0].x,s.getCorner()[0].y,s.getCorner()[1].x,s.getCorner()[1].y);
-                }
-            }*/
+                hitBox2D.draw(graphics);
+            }
             graphics.setColor(Color.BLUE);
             for(CastEvent e:castEvent){
                 graphics.drawOval(e.getInteractLocation().x, e.getInteractLocation().y, 1, 1);

@@ -44,8 +44,8 @@ class CastTest {
     public void hitBoxManagerCollideTest(){
         System.out.println(Math.cos(Math.toRadians(0))+" "+Math.sin(Math.toRadians(0)));
         SimpleSquareHitBox test = new SimpleSquareHitBox(new Point(0,0),990);
-        for(int i = 0 ; i < test.getCorners().length;i++)
-            System.out.println(test.getCorners()[i]);
+        for(int i = 0; i < test.getBounds().length; i++)
+            System.out.println(test.getBounds()[i]);
 
         ArrayList<HitBox2D> hitboxManager = new ArrayList<>();
         hitboxManager.add(test);
