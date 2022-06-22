@@ -1,20 +1,32 @@
 package hitbox;
 
+import rayCasting.CastEvent;
+
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SimpleSquareHitBox extends HitBox2D {
-    Point[] corners = new Point[4];
+    Point[] bounds = new Point[4];
     Side[] sides = new Side[4];
 
+    Point location;
+    int size=10;
+
     public SimpleSquareHitBox(Point location,int size){
-        corners[0] = new Point(location.x-size,location.y-size);
-        corners[1] = new Point(location.x+size,location.y-size);
-        corners[2] = new Point(location.x+size,location.y+size);
-        corners[3] = new Point(location.x-size,location.y+size);
+        this.location=location;
+        this.size=size;
+        setBounds();
+
+    }
+    private void setBounds(){
+        bounds[0] = new Point(location.x-size,location.y-size);
+        bounds[1] = new Point(location.x+size,location.y-size);
+        bounds[2] = new Point(location.x+size,location.y+size);
+        bounds[3] = new Point(location.x-size,location.y+size);
 
         for(int i = 0;i<4;i++) {
-            sides[i]=new Side(new Point(corners[i].x,corners[i].y),new Point(corners[(i+1)%4].x,corners[(i+1)%4].y));
+            sides[i]=new Side(new Point(bounds[i].x, bounds[i].y),new Point(bounds[(i+1)%4].x, bounds[(i+1)%4].y));
         }
     }
 
@@ -22,13 +34,19 @@ public class SimpleSquareHitBox extends HitBox2D {
 
 
     @Override
-    public boolean contain(Point location) {
-        return false;
+    public void setLocation(Point location) {
+        this.location = location;
+        setBounds();
     }
 
     @Override
-    public Point[] getCorners() {
-        return corners;
+    public void setAngle(double angle) {
+
+    }
+
+    @Override
+    public Point[] getBounds() {
+        return bounds;
     }
 
     @Override
@@ -43,7 +61,7 @@ public class SimpleSquareHitBox extends HitBox2D {
     @Override
     public String toString() {
         return "SimpleSquareHitBox{" +
-                "corners=" + Arrays.toString(corners) +
+                "corners=" + Arrays.toString(bounds) +
                 ", sides=" + Arrays.toString(sides) +
                 '}';
     }
